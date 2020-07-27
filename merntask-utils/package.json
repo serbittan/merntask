@@ -1,0 +1,14 @@
+{
+  "name": "merntask-utils",
+  "version": "1.0.0",
+  "description": "merntask utils of merntask project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sergi bittan",
+  "license": "ISC",
+  "dependencies": {
+    "merntask-errors": "file:../merntask-errors"
+  }
+}
