@@ -4,15 +4,13 @@ const { NotAllowedError } = require('merntask-errors')
 const bcrypt = require('bcrypt')
 
 const registerUser = (name, email, password) => {
-    console.log(name)
     validate.string(name, 'name')
     validate.string(email, 'email')
     validate.email(email)
     validate.string(password, 'password')
-    console.log(name)
+
     return User.findOne({ email })
         .then(user => {
-            debugger
             if (user) throw new NotAllowedError(`user with email ${email} already exist`)
 
             //hashear el password
@@ -20,8 +18,8 @@ const registerUser = (name, email, password) => {
         })
         .then(password => {
             const user = new User({ name, email, password })
-            console.log(user)
-            return user.save().send('user created correctly')
+
+            return user.save()
         })
 }
 
