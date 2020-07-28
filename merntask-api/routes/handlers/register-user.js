@@ -6,9 +6,12 @@ module.exports = (req, res) => {
     try{
         registerUser(name, email, password)
             .then(() => res.status(201).end())
-            .catch(error => { res.send('error')})
+            .catch(error => { 
+                res.send(error)
+            })
 
     } catch (error) {
-
+        console.log(error)
+        res.status(400).send('hubo un error')
     }
 }

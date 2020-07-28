@@ -5,13 +5,13 @@ const {
 } = require('./handlers')
 
 const bodyParser = require('body-parser')
-const jsonBobyParser = bodyParser.json()
+const jsonBodyParser = bodyParser.json()
 //ahora en las nuevas versiones de express tenemos:   app.use(express.json({ extended: true }))
 
 const router = new Router()
 
 //usuarios
-router.post('/users', jsonBobyParser, registerUser)
+router.post('/users', jsonBodyParser, registerUser)
 
 
 module.exports = router
