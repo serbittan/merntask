@@ -19,6 +19,8 @@
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "merntask-errors": "file:../merntask-errors",
+    "merntask-data": "file:../merntask-data",
+    "merntask-utils": "file:../merntask-utils",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
