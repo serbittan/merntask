@@ -1,0 +1,14 @@
+{
+  "name": "merntask-data",
+  "version": "1.0.0",
+  "description": "merntask data of merntask",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sergi bittan",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.9.26"
+  }
+}
