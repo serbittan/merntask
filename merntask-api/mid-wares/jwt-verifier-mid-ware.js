@@ -3,7 +3,7 @@ const { response } = require('express')
 const { env: { JWT_SECRET } } = process
 
 module.exports = (req, res, next) => {
-    const { headers: authorization } = req
+    const { headers: { authorization } } = req
 
     if (!authorization) return res.status(401).json({ error: 'no authorization header provided'})
 
