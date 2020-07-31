@@ -1,17 +1,25 @@
-const { registerUser } = require('../../logic')
+const { authenticateUser } = require('../../logic')
 const { NotAllowedError, TypeError, ContentError } = require('merntask-errors')
+const jwt = require('jsonwebtoken')
+const user = require('merntask-data/schemas/user')
+const { env: { JWT_SECRET, JWT_EXP} } = process
+
 
 module.exports = (req, res) => {
-    const { body: { name, email, password } } = req
+    const { body: { email , password } } = req
 
-    try{
-        registerUser(name, email, password)
-            .then(() => res.status(201).end())
+    try {
+        authenticateUser(email, password)
+            .then(id => {
+                const token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: JWT_EXP })
+
+                res.status(200).send({ token })
+            })
             .catch(error => {
                 let status = 400
                 
                 if (error instanceof NotAllowedError)
-                    status = 409 // Conflict
+                    status = 401  // not authorized
 
                 const { message } = error
 
@@ -20,13 +28,13 @@ module.exports = (req, res) => {
                     .json({
                         error: message
                     })
-            })
 
-    } catch (error) {
-        let status = 400
+            })
+    } catch(error) {
+        status = 400
 
         if (error instanceof TypeError || error instanceof ContentError)
-            status = 406  // not acceptable
+            status = 406 // not acceptable
         
         const { message } = error
 
@@ -36,4 +44,6 @@ module.exports = (req, res) => {
                 error: message
             })
     }
+
 }
+

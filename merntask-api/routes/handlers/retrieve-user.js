@@ -1,17 +1,19 @@
-const { registerUser } = require('../../logic')
-const { NotAllowedError, TypeError, ContentError } = require('merntask-errors')
+const { NotAllowedError, ContentError } = require("merntask-errors")
+const { retrieveUser } = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { name, email, password } } = req
+    const { payload: { sub: id } } = req
 
-    try{
-        registerUser(name, email, password)
-            .then(() => res.status(201).end())
+    try {
+        retrieveUser(id)
+            .then(user =>
+                res.status(200).json(user)
+            )
             .catch(error => {
                 let status = 400
-                
+
                 if (error instanceof NotAllowedError)
-                    status = 409 // Conflict
+                    status = 401 // not authorized
 
                 const { message } = error
 
@@ -20,13 +22,14 @@ module.exports = (req, res) => {
                     .json({
                         error: message
                     })
+
             })
 
     } catch (error) {
-        let status = 400
+        status = 400
 
         if (error instanceof TypeError || error instanceof ContentError)
-            status = 406  // not acceptable
+            status = 406 // not acceptable
         
         const { message } = error
 

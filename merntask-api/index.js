@@ -8,8 +8,8 @@ const { name, version } = require('./package')
 const morgan = require('morgan')
 const fs = require('fs')
 const path = require('path')
-//const cors = require('cors')
-const mongoose = require('mongoose')
+const cors = require('cors')
+const { mongoose } = require('merntask-data')
 const router = require('./routes')
 
 //conectamos a la base de datos
@@ -46,8 +46,7 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true 
     const app = express()
 
     //aplicamos cors
-
-    //app.use(cors())
+    app.use(cors())
 
     //morgan para la captura de HTTP req, res y su logger
     app.use(morgan('combinated', { stream: accessLogStream }))
