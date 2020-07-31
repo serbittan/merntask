@@ -4,7 +4,8 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
-    createProject
+    createProject,
+    retrieveProject
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -22,7 +23,8 @@ router.post('/users/auth', jsonBodyParser, authenticateUser)
 router.get('/users', jwtVerifierMidWare, retrieveUser )
 
 // projects
-router.post('/projects', jsonBodyParser, createProject)
+router.post('/projects', jwtVerifierMidWare, jsonBodyParser, createProject)
+router.get('/projects/:idProject', jwtVerifierMidWare, retrieveProject)
 
 
 module.exports = router
