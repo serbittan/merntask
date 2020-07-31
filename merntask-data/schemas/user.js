@@ -14,9 +14,16 @@ const user = new Schema({
         type: String,
         required: true
     },
-    date: {
+    created: {
         type: Date,
+        required: true,
         default: Date.now()
+    },
+    authenticated: {
+        type: Date
+    },
+    retrieved: {
+        type: Date
     }
 })
 
