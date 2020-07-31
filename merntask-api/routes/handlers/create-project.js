@@ -2,9 +2,9 @@ const { createProject } = require(".")
 
 
 module.exports = (req, res) => {
-
+    const { name } = req
     try {
-        createProject()
+        createProject(name)
          .then(() => {
              
          })
