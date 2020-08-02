@@ -3,5 +3,6 @@ module.exports = {
     authenticateUser: require('./autenthicate-user'),
     retrieveUser: require('./retrieve-user'),
     createProject: require('./create-project'),
-    retrieveProject: require('./retrieve-project')
+    retrieveProjects: require('./retrieve-projects'),
+    deleteProject: require('./delete-project')
 }
