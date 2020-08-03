@@ -1,4 +1,4 @@
-const { Schema, Types: { ObjectId } } = require("mongoose");
+const { Schema, Types: { ObjectId } } = require("mongoose")
 
 const project = new Schema({
     title: {
