@@ -1,16 +1,21 @@
 const { validate } = require('merntask-utils')
-const { NotFoundError } = require('merntask-errors')
-const { models: { Project } } = require('merntask-data')
+const { NotAllowedError, ContentError } = require('merntask-errors')
+const { models: { User, Project } } = require('merntask-data')
 
-const createProject = (name) => {
-    validate.string(name, 'name')
+const createProject = (title, id) => {
+    validate.string(title, 'title')
+    validate.string(id, 'id')
 
     return (async () => {
-        const project = await Project.findOne({ name })
+        const user = await User.findById(id)
+        
+        if (!user) throw new NotAllowedError(`user with ${id} not exits`)
 
-        if (project) throw new NotFoundError(`the project ${project} already exist`)
+        const project = await new Project({ title })
 
-        project = new Project({ name })
+        if (!project) throw new ContentError(`project ${title} is not created correctly`)
+
+        project.creator = user.id
 
         return project.save()
     })()
@@ -18,3 +23,4 @@ const createProject = (name) => {
 }
 
 module.exports = createProject
+

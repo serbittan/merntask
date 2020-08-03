@@ -4,7 +4,11 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
-    createProject
+    createProject,
+    retrieveProjects,
+    deleteProject,
+    updateProject,
+    createTask
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -22,7 +26,13 @@ router.post('/users/auth', jsonBodyParser, authenticateUser)
 router.get('/users', jwtVerifierMidWare, retrieveUser )
 
 // projects
-router.post('/projects', jsonBodyParser, createProject)
+router.post('/projects', jwtVerifierMidWare, jsonBodyParser, createProject)
+router.get('/projects/', jwtVerifierMidWare, retrieveProjects)
+router.delete('/projects/delete/:idProject', jwtVerifierMidWare, deleteProject)
+router.patch('/projects/update/:idProject', jsonBodyParser, jwtVerifierMidWare, updateProject)
+
+// task
+router.post('/tasks', jwtVerifierMidWare, jsonBodyParser, createTask)
 
 
 module.exports = router
