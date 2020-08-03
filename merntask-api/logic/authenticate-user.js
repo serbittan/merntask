@@ -18,7 +18,7 @@ const authenticateUser = (email, password) => {
                 .then(validPassword => {
                     if (!validPassword) throw new NotAllowedError('wrong credentials')
 
-                    user.authenticated = new Date
+                    user.authenticated = new Date()
 
                     return user.save()
                 })

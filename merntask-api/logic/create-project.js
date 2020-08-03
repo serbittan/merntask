@@ -1,5 +1,5 @@
 const { validate } = require('merntask-utils')
-const { NotFoundError, NotAllowedError, ContentError } = require('merntask-errors')
+const { NotAllowedError, ContentError } = require('merntask-errors')
 const { models: { User, Project } } = require('merntask-data')
 
 const createProject = (title, id) => {

@@ -1,19 +1,19 @@
-const { retrieveProjects } = require("../../logic")
-const { NotAllowedError, ContentError } = require("merntask-errors")
+const { createTask } = require('../../logic')
+const { NotAllowedError, TypeError, ContentError } = require('merntask-errors')
 
 module.exports = (req, res) => {
-    const { payload: { sub: id} } = req
+    const { payload: { sub: id }, body: { name, project } } = req
     
     try {
-        retrieveProjects(id)
-            .then(project => {
-                res.status(200).json(project)
-            })
+        createTask(id, name, project)
+            .then(() => 
+                res.status(201).end()
+                )
             .catch(error => {
                 let status = 400
 
                 if (error instanceof NotAllowedError)
-                    status = 401  // not allowed
+                    status = 401
 
                 const { message } = error
 
@@ -23,7 +23,7 @@ module.exports = (req, res) => {
                         error: message
                     })
             })
-    } catch(error) {
+    } catch (error) {
         status = 400
 
         if (error instanceof TypeError || error instanceof ContentError)
@@ -36,6 +36,5 @@ module.exports = (req, res) => {
             .json({
                 error: message
             })
-
     }
 }

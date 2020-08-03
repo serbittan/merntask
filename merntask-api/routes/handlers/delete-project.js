@@ -3,7 +3,7 @@ const { TypeError, ContentError } = require('merntask-errors')
 
 module.exports = (req, res) => {
     const { payload: { sub: id }, params: { idProject }  } = req
-    console.log(req.params.idProject)
+    
     try {
         deleteProject(id, idProject)
             .then(() => 
