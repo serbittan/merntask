@@ -32,9 +32,6 @@ module.exports = {
         const [header, payload, signature] = parts
 
         if (!header.trim().length || !payload.trim().length || !signature.trim().length) throw new ContentError('invalid token')
-    },
-
-    passport(name) {
-        if (name.length < 6) throw new ContentError(`${name} should be minimun 6 characters`)
     }
+   
 }
