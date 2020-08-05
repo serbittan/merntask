@@ -1,6 +1,6 @@
 const { validate } = require('merntask-utils')
-const { models: { User, Project, Task } } = require('merntask-data')
-const { ContentError, NotAllowedError } = require('merntask-errors')
+const { models: { Project, Task } } = require('merntask-data')
+const { NotAllowedError } = require('merntask-errors')
 
 
 const createTask = (id, name, project) => {
@@ -15,10 +15,9 @@ const createTask = (id, name, project) => {
 
         if (projectExist.creator.toString() !== id) throw new NotAllowedError(`user with id ${id} does not exist`)
 
-        const task = await new Task({ name })
+        const task = await new Task({ name, project })
 
         task.date = new Date()
-        task.project = project
 
         return task.save()
     })()

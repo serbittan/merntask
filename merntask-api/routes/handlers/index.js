@@ -6,5 +6,8 @@ module.exports = {
     retrieveProjects: require('./retrieve-projects'),
     deleteProject: require('./delete-project'),
     updateProject: require('./update-project'),
-    createTask: require('./create-task')
+    createTask: require('./create-task'),
+    retrieveTasks: require('./retrieve-tasks'),
+    deleteTask: require('./delete-task'),
+    updateTask: require('./update-task')
 }
