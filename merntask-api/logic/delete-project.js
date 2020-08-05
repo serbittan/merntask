@@ -1,6 +1,6 @@
 const { validate } = require("merntask-utils")
 const { models: { User, Project } } = require('merntask-data')
-const { NotFoundError, NotAllowedError, ContentError } = require("merntask-errors")
+const { NotFoundError, NotAllowedError } = require("merntask-errors")
 
 
 const deleteProject = (id, idProject) => {

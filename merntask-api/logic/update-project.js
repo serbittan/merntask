@@ -1,7 +1,6 @@
 const { validate } = require('merntask-utils')
 const { NotAllowedError } = require('merntask-errors')
 const { models: { User, Project} } = require('merntask-data')
-const project = require('merntask-data/schemas/project')
 
 const updateProject = (id, idProject, title) => {
     validate.string(id, 'id')
@@ -10,7 +9,7 @@ const updateProject = (id, idProject, title) => {
 
     if (title === '') throw new ContentError(`is needed ${title} for update`)
     if (!idProject) throw new NotFoundError(`user with ${id} has not projects`)
-    console.log(idProject)
+
     return (async () => {
         const user = await User.findById(id)
 
