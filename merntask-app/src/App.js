@@ -5,7 +5,7 @@ import { Projects } from './components/projects'
 import { login, registerUser } from './logic'
 import { ProjectState } from './context/projects'
 import { TaskState } from './context/tasks'
-
+import { AlertState } from './context/alerts'
 
 function App() {
 
@@ -28,13 +28,15 @@ function App() {
   return (
     <ProjectState>
       <TaskState>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Login} onLogin={handleOnLogin} />
-            <Route exact path="/new-account" component={RegisterUser} onRegister={handleOnRegister} />
-            <Route export path="/projects" component={Projects} />
-          </Switch>
-        </Router>
+        <AlertState>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Login} onLogin={handleOnLogin} />
+              <Route exact path="/new-account" component={RegisterUser} onRegister={handleOnRegister} />
+              <Route export path="/projects" component={Projects} />
+            </Switch>
+          </Router>
+        </AlertState>
       </TaskState>
     </ProjectState>
   )
