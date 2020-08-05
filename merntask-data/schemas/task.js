@@ -17,8 +17,7 @@ const task = new Schema({
     },
     project: {
         type: ObjectId,
-        ref: 'Project',
-        required: true
+        ref: 'Project'
     }
 })
 
