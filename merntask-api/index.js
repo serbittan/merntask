@@ -49,7 +49,7 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true 
     app.use(cors())
 
     //morgan para la captura de HTTP req, res y su logger
-    app.use(morgan('combinated', { stream: accessLogStream }))
+    app.use(morgan('combined', { stream: accessLogStream }))
 
     // importar todas las rutas
     app.use('/api', router)
