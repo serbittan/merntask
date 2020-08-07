@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import Feedback from '../validation/Feedback'
+import { alertContext } from '../../context/alerts'
+import { authContext } from '../../context/auth'
 
-const RegisterUser
- = ({ onRegister }) => {
+const RegisterUser = () => {
+    const alertsContext = useContext(alertContext)
+    const { alert, alertShow } = alertsContext
+
+    const authsContext = useContext(authContext)
+    const { handleRegisterUser } = authsContext
+
+    // const onRegister = (name, email, passpord, repeatPassword) => {
+    //     handleRegisterUser(name, email, passpord, repeatPassword)
+    // }
+
     return (
         <div className="form-usuario">
+            {alert ? (<div className={`alert ${alert.level}`}>{alert.message}</div>) : null}
+
             <div className="contenedor-form">
                 <h1>Register</h1>
                 <form onSubmit={event => {
@@ -13,9 +27,9 @@ const RegisterUser
                     const name = event.target.name.value
                     const email = event.target.email.value
                     const password = event.target.password.value
-                    const oldPassword = event.target.oldpassword.value
+                    const repeatPassword = event.target.repeatpassword.value
 
-                    onRegister(name, email, password, oldPassword)
+                    handleRegisterUser(name, email, password, repeatPassword)
                 }}>
                     <div className="campo-form">
                         <label htmlFor="name">Name:</label>
@@ -45,12 +59,12 @@ const RegisterUser
                         />
                     </div>
                     <div className="campo-form">
-                        <label htmlFor="oldpassword">New Password:</label>
+                        <label htmlFor="repeatpassword">Repeat Password:</label>
                         <input
                             type="password"
-                            name="oldpassword"
-                            placeholder="New Password"
-                            id="oldpassword"
+                            name="repeatpassword"
+                            placeholder="Repeat Password"
+                            id="repeatpassword"
                         />
                     </div>
                     <div className="campo-form">
@@ -62,6 +76,7 @@ const RegisterUser
                     </div>
 
                 </form>
+                {alert &&<Feedback message={alert.message} level={alert.level}/>}
                 <Link to={"/"} className="enlace-cuenta">log In</Link>
             </div>
         </div>
