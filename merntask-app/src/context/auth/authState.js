@@ -9,7 +9,7 @@ import {
     CLOSE_SESSION
 } from '../../types'
 
-import { registerUser } from '../../logic'
+import { registerUser, login, retrieveUser } from '../../logic'
 
 
 const AuthState = props => {
@@ -24,7 +24,6 @@ const AuthState = props => {
 
     const handleRegisterUser = (name, email, password, repeatPassword) => {
         (async () => {
-            debugger
             try {
                 const userRegistered = await registerUser(name, email, password, repeatPassword)
                 console.log(userRegistered)
@@ -40,6 +39,42 @@ const AuthState = props => {
         })()
     }
 
+    const handleLogin = (email, password) => {
+        (async () => {
+            try {
+                await login(email, password)
+                dispatch({
+                    type: LOGIN_SUCCESSFUL,
+                    //payload: response.data
+                })
+            } catch (error) {
+                debugger
+                const alert = {
+                    message: error.response.data.error,
+                    level: 'alert-error'
+                }
+                dispatch({
+                    type: LOGIN_FAILED,
+                    payload: alert
+                })
+            }
+        })()
+    } 
+
+    const handleRetrieveUser = () => {
+        (async () => {
+            try {
+                const user = await retrieveUser()
+                console.log(user)
+                dispatch({
+                    type: RETRIEVE_USER
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+    }
+
     return (
         <authContext.Provider
             value={{
@@ -47,7 +82,9 @@ const AuthState = props => {
                 authenticated: state.authenticated,
                 user: state.user,
                 message: state.message,
-                handleRegisterUser
+                handleRegisterUser,
+                handleLogin,
+                handleRetrieveUser
             }}>
             {props.children}
         </authContext.Provider>
