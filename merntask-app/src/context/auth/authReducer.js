@@ -4,24 +4,26 @@ import {
     RETRIEVE_USER,
     LOGIN_SUCCESSFUL,
     LOGIN_FAILED, 
-    CLOSE_SESSION
+    CLOSE_SESSION,
+    RETRIEVE_USER_FAILED
 } from '../../types'
 
 
 const authReducer = (state, action) => {
     switch (action.type) {
         case REGISTER_SUCCESSFUL:
-            localStorage.setItem('token', action.payload.token)
+            //localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
-                authenticated: true,
-                message: null
+                registered: true,
+                message: null,
+                authenticated: null
             }
             
         case REGISTER_FAILED:
             return {
                 ...state,
-                token: null,
+                //token: null,
                 message: action.payload
             }
         case LOGIN_SUCCESSFUL:
@@ -29,12 +31,26 @@ const authReducer = (state, action) => {
             return {
                 ...state,
                 authenticated: true, 
-                message: null
+                message: null,
+                registered: true
             }
         case LOGIN_FAILED:
             return {
                 ...state,
                 token: null,
+                message: action.payload
+            }
+        case RETRIEVE_USER:
+            return {
+                ...state,
+                registered: true,
+                authenticated: true,
+                message: null,
+                user: action.payload
+            }
+        case RETRIEVE_USER_FAILED:
+            return {
+                ...state, 
                 message: action.payload
             }
         default:

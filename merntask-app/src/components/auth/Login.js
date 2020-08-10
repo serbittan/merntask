@@ -3,24 +3,30 @@ import { Link } from 'react-router-dom'
 import { authContext } from '../../context/auth'
 import { alertContext } from '../../context/alerts'
 import Feedback from '../validation/Feedback'
-import { isLoggedIn } from '../../logic'
+import { isLoggedIn, retrieveUser } from '../../logic'
 
 const Login = ({ history }) => {
     const authsContext = useContext(authContext)
-    const { message, handleLogin } = authsContext
+    const { authenticated, message, handleLogin } = authsContext
 
     const alertsContext = useContext(alertContext)
     const { alert, alertShow } = alertsContext
+   
+   useEffect(() => {
+       if (isLoggedIn()) {
+           (async () => {
+               try {
+                   const user = await retrieveUser()
+                   console.log(user)
+                   const { name, email, id } = user
+                   history.push('/projects')
 
-    useEffect(() => {
-        if (isLoggedIn()) {
-            // history.push('/projects')
-        } 
-        if (message) {
-            alertShow(message.alert, message.level)
-        }
-    }, [])
-
+               } catch(error) {
+                console.log(error)
+               }
+           })()
+       }
+   }, [authenticated])
 
     return (
         <div className="form-usuario">
@@ -63,7 +69,7 @@ const Login = ({ history }) => {
 
                 </form>
                 <Link to={"new-account"} className="enlace-cuenta">Register</Link>
-                {alert && <Feedback message={alert.message} level={alert.level} />}
+                {alert && <Feedback message={alert.msg} level={alert.categoria} />}
             </div>
         </div>
     )

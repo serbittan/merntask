@@ -1,7 +1,9 @@
-import axios from 'axios'
+// finalmente vamos a utilizar fetch() para las llamadas a api.
 
-const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL
-})
+// import axios from 'axios'
 
-export default axiosClient
+// const axiosClient = axios.create({
+//     baseURL: process.env.REACT_APP_API_URL
+// })
+
+// export default axiosClient

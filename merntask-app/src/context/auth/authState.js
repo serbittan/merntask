@@ -4,6 +4,7 @@ import {
     REGISTER_SUCCESSFUL,
     REGISTER_FAILED,
     RETRIEVE_USER,
+    RETRIEVE_USER_FAILED,
     LOGIN_SUCCESSFUL,
     LOGIN_FAILED,
     CLOSE_SESSION
@@ -14,10 +15,11 @@ import { registerUser, login, retrieveUser } from '../../logic'
 
 const AuthState = props => {
     const initialState = {
-        token: localStorage.getItem('token'),
+        registered: null,
         authenticated: null,
+        message: null,
         user: null,
-        message: null
+        //token: localStorage.getItem('token'),
     }
 
     const [state, dispatch] = useReducer(authReducer, initialState)
@@ -25,15 +27,20 @@ const AuthState = props => {
     const handleRegisterUser = (name, email, password, repeatPassword) => {
         (async () => {
             try {
-                const userRegistered = await registerUser(name, email, password, repeatPassword)
-                console.log(userRegistered)
+                await registerUser(name, email, password, repeatPassword)
+                //console.log(response.data)
                 dispatch({
                     type: REGISTER_SUCCESSFUL
                 })
             } catch (error) {
-                console.log(error.message)
+                const alert = {
+                    msg: error.message,
+                    categoria: 'alert-error'
+                }
                 dispatch({
-                    type: REGISTER_FAILED
+                    type: REGISTER_FAILED,
+                    payload: alert
+                    
                 })
             }
         })()
@@ -48,10 +55,9 @@ const AuthState = props => {
                     //payload: response.data
                 })
             } catch (error) {
-                debugger
                 const alert = {
-                    message: error.response.data.error,
-                    level: 'alert-error'
+                    msg: error.message,
+                    categoria: 'alert-error'
                 }
                 dispatch({
                     type: LOGIN_FAILED,
@@ -66,11 +72,20 @@ const AuthState = props => {
             try {
                 const user = await retrieveUser()
                 console.log(user)
+                //const { name, email, id } = user
                 dispatch({
-                    type: RETRIEVE_USER
+                    type: RETRIEVE_USER,
+                    payload: user
                 })
             } catch (error) {
-                console.log(error)
+                const alert = {
+                    msg: error.message,
+                    categoria: 'alert-error'
+                }
+                dispatch({
+                    type: RETRIEVE_USER_FAILED,
+                    payload: alert
+                })
             }
         })()
     }
@@ -78,9 +93,9 @@ const AuthState = props => {
     return (
         <authContext.Provider
             value={{
-                token: state.token,
-                authenticated: state.authenticated,
                 user: state.user,
+                registered: state.registered,
+                authenticated: state.authenticated,
                 message: state.message,
                 handleRegisterUser,
                 handleLogin,

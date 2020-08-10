@@ -1,19 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Feedback from '../validation/Feedback'
 import { alertContext } from '../../context/alerts'
 import { authContext } from '../../context/auth'
 
-const RegisterUser = () => {
+const RegisterUser = ({ history }) => {
     const alertsContext = useContext(alertContext)
     const { alert, alertShow } = alertsContext
 
     const authsContext = useContext(authContext)
-    const { handleRegisterUser } = authsContext
-
-    // const onRegister = (name, email, passpord, repeatPassword) => {
-    //     handleRegisterUser(name, email, passpord, repeatPassword)
-    // }
+    const { registered, message, handleRegisterUser } = authsContext
+    
+    useEffect(() => {
+        if (registered) {
+            history.push('/')
+        }
+        if (message) {
+            alertShow(message.msg, message.categoria)
+        }
+    }, [registered, message])
 
     return (
         <div className="form-usuario">
@@ -76,7 +81,7 @@ const RegisterUser = () => {
                     </div>
 
                 </form>
-                {alert &&<Feedback message={alert.message} level={alert.level}/>}
+                {alert &&<Feedback message={alert.msg} level={alert.categoria} />}
                 <Link to={"/"} className="enlace-cuenta">log In</Link>
             </div>
         </div>
