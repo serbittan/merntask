@@ -14,12 +14,12 @@ const AlertState = props => {
     // dispatch para ejecutar las acciones
     const [state, dispatch] = useReducer(alertReducer, initialState)
 
-    const alertShow = (message, level) => {
+    const alertShow = (msg, categoria) => {
         dispatch({
             type: ALERT_SHOW,
             payload: {
-                message,
-                level
+                msg,
+                categoria
             }
         })
 
