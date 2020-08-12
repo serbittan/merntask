@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react'
 import projectContext from './projectContext'
 import projectReducer from './projectReducer'
-import { nanoid } from 'nanoid'
 import {
     FORMULARIO_PROJECT,
     GET_PROJECTSNAME,
@@ -11,7 +10,7 @@ import {
     DELETE_PROJECT
 } from '../../types'
 
-
+import { addProject } from '../../logic'
 
 const ProjectState = props => {
 
@@ -50,13 +49,23 @@ const ProjectState = props => {
 
     //add a new project
     const addNewProject = project => {
-        //add id
-        project.id = nanoid()
-        //function for change state
-        dispatch({
-            type: ADD_NEWPROJECT,
-            payload: project
-        })
+        (async () => {
+            try {
+                await addProject(project)
+                dispatch({
+                    type: ADD_NEWPROJECT,
+                    //payload: project  ???
+                })
+            } catch (error) {
+                console.log(error)
+            }
+
+            dispatch({
+                type: ADD_NEWPROJECT,
+                payload: project
+            })
+
+        })()
     }
 
     //gestionar los errores

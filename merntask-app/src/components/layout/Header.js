@@ -1,18 +1,33 @@
-import React, { useReducer } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { authContext } from '../../context/auth'
+import { isLoggedIn } from '../../logic'
 
 const Header = () => {
-    const authsContext = useReducer(authContext)
-    const { user } = authsContext
+    const authsContext = useContext(authContext)
+    const { user, handleLogOut, handleRetrieveUser, } = authsContext
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            handleRetrieveUser()
+        }
+    }, [])
+
 
     return ( 
         <header className="app-header">
-            <p className="nombre-usuario">Hola <span>{user.name}</span></p>
+            <p className="nombre-usuario">Hola <span>{user && user.name}</span></p>
             <nav className="nav-principal">
-                <a href="#!">Logout</a>
+                <a href="#!" onClick={event => {
+                    event.preventDefault()
+
+                    handleLogOut()
+
+                }}>Logout</a>
             </nav>
         </header>
      )
 }
- 
+
 export default Header
+    
+ 

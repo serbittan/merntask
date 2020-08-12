@@ -17,7 +17,8 @@ const authReducer = (state, action) => {
                 ...state,
                 registered: true,
                 message: null,
-                authenticated: null
+                authenticated: null,
+                cargando: false
             }
             
         case REGISTER_FAILED:
@@ -32,12 +33,13 @@ const authReducer = (state, action) => {
                 ...state,
                 authenticated: true, 
                 message: null,
-                registered: true
+                registered: true,
+                cargando: false
             }
         case LOGIN_FAILED:
             return {
                 ...state,
-                token: null,
+                //token: null,
                 message: action.payload
             }
         case RETRIEVE_USER:
@@ -46,12 +48,21 @@ const authReducer = (state, action) => {
                 registered: true,
                 authenticated: true,
                 message: null,
-                user: action.payload
+                user: action.payload,
+                cargando: false
             }
         case RETRIEVE_USER_FAILED:
             return {
                 ...state, 
                 message: action.payload
+            }
+        case CLOSE_SESSION:
+            return {
+                ...state,
+                user: null,
+                message: null,
+                authenticated: null,
+                registered: null
             }
         default:
             return state

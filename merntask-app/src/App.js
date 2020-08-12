@@ -6,6 +6,7 @@ import { ProjectState } from './context/projects'
 import { TaskState } from './context/tasks'
 import { AlertState } from './context/alerts'
 import { AuthState } from './context/auth'
+import PrivateRoute from './components/route/private-route'
 
 function App() {
   console.log(process.env.REACT_APP_API_URL)
@@ -21,7 +22,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Login} />
                 <Route exact path="/new-account" component={RegisterUser} />
-                <Route export path="/projects" component={Projects} />
+                <PrivateRoute export path="/projects" component={Projects} />
               </Switch>
             </Router>
           </AuthState>
