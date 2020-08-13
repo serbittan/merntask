@@ -1,35 +1,28 @@
-import { validate } from 'merntask-utils'
 import { NotAllowedError } from 'merntask-errors'
-import authToken from '../logic/auth-token'
+import authToken from './auth-token'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-
-
-const addProject = function (title) {
-    const { name } = title
-    validate.string(name, 'name')
-
+const retrieveProjects = function () {
     return (async () => {
         const response = await fetch(`${API_URL}/projects`, {
-            method: 'POST',
-            headers: { 
+            method: 'GET',
+            headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${this.token}` 
-            },
-            body: JSON.stringify({ name })
+                Authorization: `Bearer ${this.token}`
+            }
         })
 
         const { status } = response
 
-        if (status === 201) {
-            const project = await response.json()
-
-            return project
+        if (status === 200) {
+            const projectsArray = await response.json()
+           
+            return projectsArray
         }
 
         if (status >= 400 && status < 500) {
-            const { error } = await response.json()
+            const { error } = response.json()
 
             if (status === 401) {
                 throw new NotAllowedError(error)
@@ -37,11 +30,8 @@ const addProject = function (title) {
             throw new Error(error)
         }
         throw new Error('server error')
-
     })()
-
-
 
 }.bind(authToken)
 
-export default addProject
+export default retrieveProjects

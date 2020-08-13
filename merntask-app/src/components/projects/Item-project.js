@@ -11,7 +11,7 @@ const ItemProject = ({ project }) => {
     const projectsContext = useContext(projectContext)
     const { currentProject } = projectsContext
 
-    const { id, name } = project
+    const { id, title } = project
 
     const handleProject = id => {
         currentProject(id) //project actual seleccionado
@@ -24,7 +24,7 @@ const ItemProject = ({ project }) => {
                 onClick={() => handleProject(id)}
                 type="button"
                 className="btn btn-blank"
-            >{name}</button>
+            >{title}</button>
         </li>
      )
 }

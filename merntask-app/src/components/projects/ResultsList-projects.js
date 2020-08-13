@@ -2,8 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import ItemProject from './Item-project'
 import { projectContext } from '../../context/projects'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import alertContext from '../../context/alerts'
+
 
 const ResultsListProjects = () => {
+    const alertsContext = useContex(alertContext)
+    const { alert, alertShow } = alertsContext
 
     //extraer projects de state inicial
     const projectsContext = useContext(projectContext)

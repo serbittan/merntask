@@ -1,4 +1,4 @@
-import { FORMULARIO_PROJECT, GET_PROJECTSNAME, ADD_NEWPROJECT, VALIDAR_PROJECTNAME,  CURRENT_PROJECT, DELETE_PROJECT } from '../../types'
+import { FORMULARIO_PROJECT, GET_PROJECTSNAME, ADD_NEWPROJECT, VALIDAR_PROJECTNAME,  CURRENT_PROJECT, DELETE_PROJECT, ERROR_PROJECT } from '../../types'
 
 
 const projectReducer = (state, action) => {
@@ -16,7 +16,6 @@ const projectReducer = (state, action) => {
             return {
                 ...state,
                 projectsName: [action.payload, ...state.projectsName], //invierto el orden para que aparezca en la 1ªposición del listado
-            
                 formulario: false,
                 error: false            
             }
@@ -24,6 +23,11 @@ const projectReducer = (state, action) => {
             return {
                 ...state,
                 error: true
+            }
+        case ERROR_PROJECT:
+            return {
+                ...state,
+                message: action.payload
             }
         case  CURRENT_PROJECT:
             return {

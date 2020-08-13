@@ -5,6 +5,8 @@ import retrieveUser from './retrieve-user'
 import logOut from './log-out'
 
 import addProject from './add-project'
+import retrieveProjects from './retrieve-projects'
+import deleteProject from './delete-project'
 
 export {
     login,
@@ -12,5 +14,7 @@ export {
     isLoggedIn,
     retrieveUser,
     logOut,
-    addProject
+    addProject,
+    retrieveProjects,
+    deleteProject
 }

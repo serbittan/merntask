@@ -6,27 +6,21 @@ import {
     GET_PROJECTSNAME,
     ADD_NEWPROJECT,
     VALIDAR_PROJECTNAME,
+    ERROR_PROJECT,
     CURRENT_PROJECT,
     DELETE_PROJECT
 } from '../../types'
 
-import { addProject } from '../../logic'
+import { addProject, retrieveProjects, deleteProject } from '../../logic'
+
 
 const ProjectState = props => {
-
-    //esto en realidad vendrá de una base de datos
-    const projectsName = [
-        { id: 0, name: 'program' },
-        { id: 1, name: 'phone' },
-        { id: 2, name: 'desk' },
-        { id: 3, name: 'ipad' }
-    ]
-
     const initialState = {
         projectsName: [],
         formulario: false,
         error: false,
         project: null,
+        alert: null
     }
 
     //Dispatch para ejecutar las acciones
@@ -41,32 +35,39 @@ const ProjectState = props => {
 
     //Obtener los projectsName
     const getProjectsName = () => {
-        dispatch({
-            type: GET_PROJECTSNAME,
-            payload: projectsName
-        })
+        (async () => {
+            try {
+                const projectsName = await retrieveProjects()
+                dispatch({
+                    type: GET_PROJECTSNAME,
+                    payload: projectsName
+                })
+                
+            } catch (error) {
+                console.log(error)
+            }
+        })()
     }
 
     //add a new project
-    const addNewProject = project => {
+    const addNewProject = newProject => {
         (async () => {
             try {
-                await addProject(project)
+                const project = await addProject(newProject)
+                console.log(project)
                 dispatch({
                     type: ADD_NEWPROJECT,
-                    //payload: project  ???
+                    payload: project
                 })
             } catch (error) {
                 console.log(error)
             }
 
-            dispatch({
-                type: ADD_NEWPROJECT,
-                payload: project
-            })
-
         })()
     }
+                
+                
+                
 
     //gestionar los errores
     const setError = () => {
@@ -84,10 +85,26 @@ const ProjectState = props => {
     }
 
     const setDeleteProject = id => {
-        dispatch({
-            type: DELETE_PROJECT,
-            payload: id
-        })
+        (async () => {
+            try {
+                await deleteProject(id)
+
+                dispatch({
+                    type: DELETE_PROJECT,
+                    payload: id
+                })
+                
+            } catch (error) {
+                const alert = {
+                    msg: 'Hubo un error',
+                    categoria: 'alert-error'
+                }
+                dispatch({
+                    type: ERROR_PROJECT,
+                    payload: alert
+                })
+            }
+        })()
     }
 
 
@@ -98,6 +115,7 @@ const ProjectState = props => {
                 projectsName: state.projectsName,
                 formulario: state.formulario,
                 error: state.error,
+                alert: state.alert,
                 setFormulario,
                 getProjectsName,
                 addNewProject,
