@@ -1,5 +1,6 @@
 const { createProject } = require("../../logic")
 const  { NotAllowedError, TypeError, ContentError } = require('merntask-errors')
+const { project } = require("merntask-data/schemas")
 
 
 module.exports = (req, res) => {
@@ -7,8 +8,8 @@ module.exports = (req, res) => {
 
     try {
         createProject(name, id)
-            .then(() => {
-                res.status(201).end()
+            .then(project => {
+                res.status(201).json(project)
             })
             .catch(error => {
                 let status = 400
