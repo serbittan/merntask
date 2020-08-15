@@ -1,13 +1,14 @@
-const { validate } = require("merntask-utils/validate")
+const { validate } = require("merntask-utils")
 const { NotFoundError, NotAllowedError } = require("merntask-errors")
 const { models: { Task, Project } } = require("merntask-data")
 
 
 
-const deleteTask = (id, idTask, project) => {
+const deleteTask = (id, project, idTask) => {
     validate.string(id, 'id')
-    validate.string(idTask, 'idTask')
     validate.string(project, 'project')
+    validate.string(idTask, 'idTask')
+    
 
     if (!idTask) throw new NotFoundError('no Task were found matching your request')
 
@@ -21,6 +22,7 @@ const deleteTask = (id, idTask, project) => {
         const taskDeleted = await Task.findOneAndRemove({ _id: idTask })
 
         return taskDeleted
+        
     })()
 }
 module.exports = deleteTask

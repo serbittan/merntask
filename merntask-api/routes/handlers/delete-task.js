@@ -4,11 +4,12 @@ const { NotAllowedError, TypeError, ContentError } = require("merntask-errors")
 
 
 module.exports = (req, res) => {
-    const { payload: { sub: id}, params: { idTask }, body: { project } } = req
-
+    const { payload: { sub: id }, params: { project, idTask } } = req
+    
     try {
-        deleteTask(id, idTask, project)
-            .then(() => res.status(200).end()
+        deleteTask(id, project, idTask)
+            .then(() =>
+                res.status(200).end()
             )
             .catch(error => {
                 let status = 400
