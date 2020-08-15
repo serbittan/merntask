@@ -6,8 +6,8 @@ module.exports = (req, res) => {
     
     try {
         createTask(id, name, project)
-            .then(() => 
-                res.status(201).end()
+            .then(task => 
+                res.status(201).json(task)
                 )
             .catch(error => {
                 let status = 400

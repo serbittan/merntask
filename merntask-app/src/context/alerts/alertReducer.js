@@ -11,7 +11,7 @@ const alertReducer = (state, action) => {
             }
         case ALERT_HIDDEN:
             return {
-                //...state,
+                // ...state,
                 alert: null
             }
         case RETRIEVE_USER:

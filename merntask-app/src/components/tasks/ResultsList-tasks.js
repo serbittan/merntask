@@ -22,7 +22,7 @@ const ResultsListTasks = () => {
 
     return (
         <Fragment>
-            <h2>{currentProject.name}</h2>
+            <h2>{currentProject.title}</h2>
 
             <ul className="listado-tareas">
                 {tasksProject.length === 0 ?

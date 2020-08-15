@@ -3,8 +3,8 @@ const { NotAllowedError, TypeError, ContentError, NotFoundError } = require("mer
 
 
 module.exports = (req, res) => { 
-    const { payload: { sub: id }, body: { project }} = req
-
+    const { payload: { sub: id }, params: { project }} = req
+    
     try {
         retrieveTasks(id, project)
             .then(tasks => {

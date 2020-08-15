@@ -4,10 +4,10 @@ import authToken from './auth-token'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-debugger
+
 const retrieveUser = function () {
     return (async () => {
-        debugger
+        
         const response = await fetch(`${API_URL}/users`, {
             method: 'GET',
             headers: {
@@ -20,7 +20,7 @@ const retrieveUser = function () {
         
         if (status === 200) {
             const user = await response.json()
-            debugger
+            
             return user
         }
 

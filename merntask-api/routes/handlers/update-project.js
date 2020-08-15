@@ -5,7 +5,6 @@ const { NotAllowedError,TypeError, ContentError } = require("merntask-errors")
 
 module.exports = (req, res) => {
     const { payload: { sub: id }, params: { idProject }, body: { title } } = req
-    console.log(idProject)
 
     try {
         updateProject(id, idProject, title)

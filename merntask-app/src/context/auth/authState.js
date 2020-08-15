@@ -10,7 +10,7 @@ import {
     CLOSE_SESSION
 } from '../../types'
 
-import { registerUser, login, retrieveUser } from '../../logic'
+import { registerUser, login, retrieveUser, logOut } from '../../logic'
 
 
 const AuthState = props => {
@@ -19,6 +19,7 @@ const AuthState = props => {
         authenticated: null,
         message: null,
         user: null,
+        cargando: true //para evitar un flasheo al recargar Projects con Login
         //token: localStorage.getItem('token'),
     }
 
@@ -54,6 +55,8 @@ const AuthState = props => {
                     type: LOGIN_SUCCESSFUL,
                     //payload: response.data
                 })
+                handleRetrieveUser()
+
             } catch (error) {
                 const alert = {
                     msg: error.message,
@@ -71,8 +74,6 @@ const AuthState = props => {
         (async () => {
             try {
                 const user = await retrieveUser()
-                console.log(user)
-                //const { name, email, id } = user
                 dispatch({
                     type: RETRIEVE_USER,
                     payload: user
@@ -90,6 +91,15 @@ const AuthState = props => {
         })()
     }
 
+    const handleLogOut = () => {
+        logOut()
+        dispatch({
+            type: CLOSE_SESSION
+        })
+    }
+        
+           
+
     return (
         <authContext.Provider
             value={{
@@ -97,9 +107,11 @@ const AuthState = props => {
                 registered: state.registered,
                 authenticated: state.authenticated,
                 message: state.message,
+                cargando: state.cargando,
                 handleRegisterUser,
                 handleLogin,
-                handleRetrieveUser
+                handleRetrieveUser,
+                handleLogOut
             }}>
             {props.children}
         </authContext.Provider>

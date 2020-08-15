@@ -1,5 +1,5 @@
 import { validate } from 'merntask-utils'
-import { NotFoundError, ContentError, NotAllowedError } from 'merntask-errors'
+import { ContentError, NotAllowedError } from 'merntask-errors'
 //import axiosClient from '../config/axios'
 
 const API_URL = process.env.REACT_APP_API_URL

@@ -1,6 +1,6 @@
 const { validate } = require('merntask-utils')
 const { models: { Project, Task } } = require('merntask-data')
-const { NotAllowedError } = require('merntask-errors')
+const { NotAllowedError, NotFoundError } = require('merntask-errors')
 
 
 const createTask = (id, name, project) => {
@@ -19,7 +19,19 @@ const createTask = (id, name, project) => {
 
         task.date = new Date()
 
-        return task.save()
+        await task.save()
+
+        const newTask = await Task.findOne({ name }).lean()
+
+        if (!newTask) throw new NotFoundError(`task with name ${name} does not exist`)
+
+        newTask.id = newTask._id.toString()
+
+        delete newTask._id
+        delete newTask.__v
+
+        return newTask
+        
     })()
 
     

@@ -6,7 +6,7 @@ const ItemTask = ({ task }) => {
     //traer state de project ya que necesitamos el projectId del proyecto actual
     const projectsContext = useContext(projectContext)
     const { project } = projectsContext
-
+    const [currentProject] = project //project es un array.Así lo puedo manejar
 
     //traer state task
     const tasksContext = useContext(taskContext)
@@ -15,7 +15,7 @@ const ItemTask = ({ task }) => {
 
     //función que se ejecuta cuando el user presiona btn eliminar tarea
     const taskDeleted = id => {
-        deleteTask(id)
+        deleteTask(id, currentProject.id)
         getTasksProject(project[0].id) //lo mismo que: const [currentProject] = project //el destructuring ya nos da la posición.(otra forma de hacerlo)
     }
 
@@ -60,7 +60,7 @@ const ItemTask = ({ task }) => {
                 >Edit</button>
 
                 <button
-                    onClick={() => taskDeleted(id)}
+                    onClick={() => taskDeleted(id, currentProject.id)}
                     type="button"
                     className="btn btn-secundario"
                 >Delete</button>

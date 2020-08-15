@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { authContext } from '../../context/auth'
 import { alertContext } from '../../context/alerts'
 import Feedback from '../validation/Feedback'
-import { isLoggedIn, retrieveUser } from '../../logic'
+import { isLoggedIn } from '../../logic'
 
 const Login = ({ history }) => {
     const authsContext = useContext(authContext)
@@ -11,26 +11,23 @@ const Login = ({ history }) => {
 
     const alertsContext = useContext(alertContext)
     const { alert, alertShow } = alertsContext
-   
-   useEffect(() => {
-       if (isLoggedIn()) {
-           (async () => {
-               try {
-                   const user = await retrieveUser()
-                   console.log(user)
-                   const { name, email, id } = user
-                   history.push('/projects')
 
-               } catch(error) {
-                console.log(error)
-               }
-           })()
-       }
-   }, [authenticated])
+
+    useEffect(() => {
+        if (isLoggedIn()) {  //utilizo la función en lugar de hacerlo con authenticated que también se podría
+            history.push('/projects')
+        }
+        if (message) {
+            alertShow(message.msg, message.categoria)
+        }
+
+    }, [authenticated, message])
+
 
     return (
         <div className="form-usuario">
             <div className="contenedor-form">
+                {alert && <Feedback message={alert.msg} level={alert.categoria} />}
                 <h1>Login</h1>
                 <form onSubmit={event => {
                     event.preventDefault()
@@ -69,7 +66,6 @@ const Login = ({ history }) => {
 
                 </form>
                 <Link to={"new-account"} className="enlace-cuenta">Register</Link>
-                {alert && <Feedback message={alert.msg} level={alert.categoria} />}
             </div>
         </div>
     )

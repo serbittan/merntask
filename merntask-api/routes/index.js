@@ -36,9 +36,9 @@ router.patch('/projects/update/:idProject', jsonBodyParser, jwtVerifierMidWare, 
 
 // task
 router.post('/tasks', jwtVerifierMidWare, jsonBodyParser, createTask)
-router.get('/tasks', jwtVerifierMidWare,jsonBodyParser, retrieveTasks)
-router.delete('/tasks/delete/:idTask', jsonBodyParser, jwtVerifierMidWare, deleteTask)
-router.patch('/tasks/update/:idTask', jwtVerifierMidWare, jsonBodyParser, updateTask)
+router.get('/tasks/:project', jwtVerifierMidWare, retrieveTasks)
+router.delete('/tasks/delete/:project/:idTask', jwtVerifierMidWare, deleteTask)
+router.patch('/tasks/update/:project/:idTask', jwtVerifierMidWare, jsonBodyParser, updateTask)
 
 
 module.exports = router
