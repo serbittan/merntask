@@ -1,28 +1,33 @@
-import authToken from "./auth-token"
 import { validate } from 'merntask-utils'
 import { NotAllowedError } from 'merntask-errors'
+import authToken from './auth-token'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-
-
-const deleteProject = function (idProject) {
-    validate.string(idProject, 'idProject')
-
+const retrieveTasks = function (project) {
+    validate.string(project, 'project')
+   
+    
     return (async () => {
-        const response = await fetch(`${API_URL}/projects/delete/${idProject}`, {
-            method: 'DELETE',
+        const response = await fetch(`${API_URL}/tasks/${project}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${this.token}`
             }
+            
         })
-        const { status } = response
 
-        if (status === 200) return
+        const { status } = response
+        
+        if (status === 200) {
+            const tasksArray = await response.json()
+
+            return tasksArray
+        }
 
         if (status >= 400 && status < 500) {
-            const { error } = await response.json()
+            const { error } = response.json()
 
             if (status === 401) {
                 throw new NotAllowedError(error)
@@ -35,4 +40,4 @@ const deleteProject = function (idProject) {
 
 }.bind(authToken)
 
-export default deleteProject
+export default retrieveTasks

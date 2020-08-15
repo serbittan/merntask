@@ -27,6 +27,7 @@ const Login = ({ history }) => {
     return (
         <div className="form-usuario">
             <div className="contenedor-form">
+                {alert && <Feedback message={alert.msg} level={alert.categoria} />}
                 <h1>Login</h1>
                 <form onSubmit={event => {
                     event.preventDefault()
@@ -65,7 +66,6 @@ const Login = ({ history }) => {
 
                 </form>
                 <Link to={"new-account"} className="enlace-cuenta">Register</Link>
-                {alert && <Feedback message={alert.msg} level={alert.categoria} />}
             </div>
         </div>
     )

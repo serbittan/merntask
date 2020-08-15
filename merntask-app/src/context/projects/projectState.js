@@ -20,7 +20,7 @@ const ProjectState = props => {
         formulario: false,
         error: false,
         project: null,
-        alert: null
+        message: null
     }
 
     //Dispatch para ejecutar las acciones
@@ -44,7 +44,14 @@ const ProjectState = props => {
                 })
                 
             } catch (error) {
-                console.log(error)
+                const alert = {
+                    msg: 'Hubo un error',
+                    categoria: 'alert-error'
+                }
+                dispatch({
+                    type: ERROR_PROJECT,
+                    payload: alert
+                })
             }
         })()
     }
@@ -60,7 +67,14 @@ const ProjectState = props => {
                     payload: project
                 })
             } catch (error) {
-                console.log(error)
+                const alert = {
+                    msg: 'Hubo un error',
+                    categoria: 'alert-error'
+                }
+                dispatch({
+                    type: ERROR_PROJECT,
+                    payload: alert
+                })
             }
 
         })()
@@ -115,7 +129,7 @@ const ProjectState = props => {
                 projectsName: state.projectsName,
                 formulario: state.formulario,
                 error: state.error,
-                alert: state.alert,
+                message: state.message,
                 setFormulario,
                 getProjectsName,
                 addNewProject,

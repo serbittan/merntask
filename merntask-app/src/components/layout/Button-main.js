@@ -7,7 +7,7 @@ const ButtonMain = () => {
      const { project, setDeleteProject } = projectsContext
 
      const [actualProject] = project
-     console.log(actualProject)
+     
     return ( 
         
             <button
