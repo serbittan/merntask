@@ -1,13 +1,10 @@
-import React, { useContext } from 'react'
-//import { alertContext } from '../../context/alerts'
+import React from 'react'
 
 const Feedback = ({ message, level }) => {
-    // const alertsContext = useContext(alertContext)
-    // const { alert, alertShow } = alertsContext
     return ( 
-        <div className={`alert ${level}`}>
+        <p className={`mensaje error alert ${level}`}>
             {message}
-        </div>
+        </p>
 
      )
 }

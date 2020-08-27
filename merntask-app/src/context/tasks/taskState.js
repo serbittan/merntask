@@ -1,14 +1,14 @@
 import React, { useReducer } from 'react'
 import { taskReducer, taskContext } from './index'
 
-import { addTaskProject, retrieveTasks, deleteTaskProject } from '../../logic'
+import { addTaskProject, retrieveTasks, deleteTaskProject, updateTaskProject } from '../../logic'
 
 import { 
     TASKS_PROJECT, 
     ADD_TASK, 
-    VALIDATE_TASK,
+    TASK_VALIDATE,
     DELETE_TASK,
-    STATUS_TASK,
+    // STATUS_TASK,
     CURRENT_TASK,
     UPDATE_TASK,
     CLEAN_TASK
@@ -16,53 +16,57 @@ import {
 
 const  TaskState = ({ children }) => {
     const initialState = {
-        tasksProject: [],
+        tasksproject: [],
         errorTask: false,
         selectedTask : null
     }
 
-    //crear dispatch y state
+   
     const [state, dispatch] = useReducer(taskReducer, initialState)
 
-    //Obtener tasks de un project
-    const getTasksProject = project => {
+
+    // Agrega una tarea al proyecto seleccionado
+    const addTask = task => {
         (async () => {
             try {
-                const tasks = await retrieveTasks(project)
+                 const taskAdded = await addTaskProject(task)
                 dispatch({
-                    type: TASKS_PROJECT,
-                    payload: tasks
+                    type: ADD_TASK,
+                    payload: taskAdded
                 })
             } catch (error) {
                 console.log(error)
             }
         })()
+     }
+ 
+
+    // Obtener tasks de un project
+    const getTasks = project => {
+        (async () => {
+            try {
+                const tasksArray = await retrieveTasks(project)
+                    dispatch({
+                    type: TASKS_PROJECT,
+                    payload: tasksArray
+                })
+            } catch (error) {
+                console.log(error)
+    
+            }
+               
+        })()
     }
 
-    //añadir tarea al proyecto seleccionado
-    const addTask = task => {
-       (async () => {
-           try {
-               const taskAdded = await addTaskProject(task)
-
-               dispatch({
-                   type: ADD_TASK,
-                   payload: taskAdded
-               })
-           } catch (error) {
-               console.log(error)
-           }
-       })()
-    }
-
-    //manejar los errores del formTask
+    
+    // Valida y manejar los errores del formTask local
     const setErrorTask = () => {
         dispatch({
-            type: VALIDATE_TASK
+            type: TASK_VALIDATE
         })
     }
 
-    //eliminar una task
+    // Eliminar una task
     const deleteTask = (id, project) => {
         (async () => {
             try {
@@ -77,15 +81,15 @@ const  TaskState = ({ children }) => {
         })()
     }
 
-    //cambiar el status de la task
-    const statusTaskChange = task => {
-        dispatch({
-            type: STATUS_TASK,
-            payload: task
-        })
-    }
+    //cambiar el status de la task (al final updateTask hace la misma función)
+    // const statusTaskChange = task => {
+    //     dispatch({
+    //         type: STATUS_TASK,
+    //         payload: task
+    //     })
+    // }
 
-    //obtener la tarea seleccionada para editar nueva
+    // Extrae una tarea seleccionada para editarla
     const setCurrentTask = task => {
         dispatch({
             type: CURRENT_TASK,
@@ -93,15 +97,23 @@ const  TaskState = ({ children }) => {
         })
     }
 
-    //update tarea editada
+    // Edita o modifica una tarea
     const updateTask = task => {
-        dispatch({
-            type: UPDATE_TASK,
-            payload: task
-        })
+        (async () => {
+            try {
+                const taskUpdated = await updateTaskProject(task)
+                
+                dispatch({
+                    type: UPDATE_TASK,
+                    payload: taskUpdated
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        })()
     }
 
-    //limpiar la tarea seleccionada del state
+    //limpiar la tarea seleccionada del state para que no quede seleccionada
     const cleanTask = () => {
         dispatch({
             type: CLEAN_TASK
@@ -111,14 +123,14 @@ const  TaskState = ({ children }) => {
     return ( 
         <taskContext.Provider
             value={{
+                tasksproject: state.tasksproject,
                 errorTask: state.errorTask,
-                tasksProject: state.tasksProject,
                 selectedTask: state.selectedTask,
-                getTasksProject,
+                getTasks,
                 addTask,
                 setErrorTask,
                 deleteTask,
-                statusTaskChange,
+                // statusTaskChange,
                 setCurrentTask,
                 updateTask,
                 cleanTask

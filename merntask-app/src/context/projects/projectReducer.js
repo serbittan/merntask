@@ -1,4 +1,12 @@
-import { FORMULARIO_PROJECT, GET_PROJECTSNAME, ADD_NEWPROJECT, VALIDAR_PROJECTNAME,  CURRENT_PROJECT, DELETE_PROJECT, ERROR_PROJECT } from '../../types'
+import { 
+    FORMULARIO_PROJECT, 
+    GET_PROJECTS, 
+    ADD_NEWPROJECT, 
+    FORM_VALIDATE,  
+    CURRENT_PROJECT, 
+    DELETE_PROJECT, 
+    ERROR_PROJECT 
+} from '../../types'
 
 
 const projectReducer = (state, action) => {
@@ -8,21 +16,22 @@ const projectReducer = (state, action) => {
                 ...state,
                 formulario: true
             }
-        case GET_PROJECTSNAME:
+        case GET_PROJECTS:
             return {
                 ...state,
-                projectsName: action.payload            }
+                projects: action.payload            
+            }
         case ADD_NEWPROJECT:
             return {
                 ...state,
-                projectsName: [action.payload, ...state.projectsName], //invierto el orden para que aparezca en la 1ªposición del listado
+                projects: [action.payload, ...state.projects], //invierto el orden para que aparezca en la 1ªposición del listado
                 formulario: false,
-                error: false            
+                errorform: false            
             }
-        case VALIDAR_PROJECTNAME:
+        case FORM_VALIDATE:
             return {
                 ...state,
-                error: true
+                errorform: true
             }
         case ERROR_PROJECT:
             return {
@@ -32,12 +41,12 @@ const projectReducer = (state, action) => {
         case  CURRENT_PROJECT:
             return {
                 ...state, 
-                project: state.projectsName.filter(project => project.id === action.payload),
+                project: state.projects.filter(project => project.id === action.payload),
             }
         case DELETE_PROJECT:
             return {
                 ...state,
-                projectsName: state.projectsName.filter(project => project.id !== action.payload),
+                projects: state.projects.filter(project => project.id !== action.payload),
                 project: null
             }
         

@@ -16,16 +16,17 @@ const authReducer = (state, action) => {
             return {
                 ...state,
                 registered: true,
-                message: null,
                 authenticated: null,
+                message: null,
                 cargando: false
             }
             
         case REGISTER_FAILED:
             return {
                 ...state,
+                message: action.payload,
+                cargando: false
                 //token: null,
-                message: action.payload
             }
         case LOGIN_SUCCESSFUL:
             //localstorage.setItem('token', action.payload.token). En caso de no tener authToken
@@ -33,14 +34,15 @@ const authReducer = (state, action) => {
                 ...state,
                 authenticated: true, 
                 message: null,
-                registered: true,
+                // registered: true,
                 cargando: false
             }
         case LOGIN_FAILED:
             return {
                 ...state,
                 //token: null,
-                message: action.payload
+                message: action.payload,
+                cargando: false
             }
         case RETRIEVE_USER:
             return {
@@ -54,15 +56,17 @@ const authReducer = (state, action) => {
         case RETRIEVE_USER_FAILED:
             return {
                 ...state, 
-                message: action.payload
+                message: action.payload,
+                cargando: false
             }
         case CLOSE_SESSION:
             return {
                 ...state,
                 user: null,
-                message: null,
+                registered: null,
                 authenticated: null,
-                registered: null
+                message: action.payload,
+                cargando: false
             }
         default:
             return state

@@ -6,8 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL
 
 const retrieveTasks = function (project) {
     validate.string(project, 'project')
-   
-    
+       
     return (async () => {
         const response = await fetch(`${API_URL}/tasks/${project}`, {
             method: 'GET',

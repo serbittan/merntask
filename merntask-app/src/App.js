@@ -9,9 +9,7 @@ import { AuthState } from './context/auth'
 import PrivateRoute from './components/route/private-route'
 
 function App() {
-  console.log(process.env.REACT_APP_API_URL)
 
-  
   
   return (
     <ProjectState>
@@ -22,7 +20,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Login} />
                 <Route exact path="/new-account" component={RegisterUser} />
-                <PrivateRoute export path="/projects" component={Projects} />
+                <PrivateRoute exact path="/projects" component={Projects} />
               </Switch>
             </Router>
           </AuthState>

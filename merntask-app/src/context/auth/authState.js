@@ -17,21 +17,23 @@ const AuthState = props => {
     const initialState = {
         registered: null,
         authenticated: null,
-        message: null,
         user: null,
+        message: null,
         cargando: true //para evitar un flasheo al recargar Projects con Login
         //token: localStorage.getItem('token'),
     }
 
     const [state, dispatch] = useReducer(authReducer, initialState)
 
-    const handleRegisterUser = (name, email, password, repeatPassword) => {
+
+    // Registrar al user
+    const handleRegisterUser = (data) => {
         (async () => {
             try {
-                await registerUser(name, email, password, repeatPassword)
-                //console.log(response.data)
+                await registerUser(data)
                 dispatch({
-                    type: REGISTER_SUCCESSFUL
+                    type: REGISTER_SUCCESSFUL,
+                    // payload: data
                 })
             } catch (error) {
                 const alert = {
@@ -47,29 +49,8 @@ const AuthState = props => {
         })()
     }
 
-    const handleLogin = (email, password) => {
-        (async () => {
-            try {
-                await login(email, password)
-                dispatch({
-                    type: LOGIN_SUCCESSFUL,
-                    //payload: response.data
-                })
-                handleRetrieveUser()
 
-            } catch (error) {
-                const alert = {
-                    msg: error.message,
-                    categoria: 'alert-error'
-                }
-                dispatch({
-                    type: LOGIN_FAILED,
-                    payload: alert
-                })
-            }
-        })()
-    } 
-
+    // Traer al usuario
     const handleRetrieveUser = () => {
         (async () => {
             try {
@@ -91,6 +72,33 @@ const AuthState = props => {
         })()
     }
 
+
+    // logear al usuario
+    const handleLogin = (email, password) => {
+        (async () => {
+            try {
+                await login(email, password)
+                dispatch({
+                    type: LOGIN_SUCCESSFUL
+                })
+                // Obtener Usuario
+                handleRetrieveUser()
+
+            } catch (error) {
+                const alert = {
+                    msg: error.message,
+                    categoria: 'alert-error'
+                }
+                dispatch({
+                    type: LOGIN_FAILED,
+                    payload: alert
+                })
+            }
+        })()
+    } 
+
+
+    // Cerrar sesión de usuario
     const handleLogOut = () => {
         logOut()
         dispatch({
@@ -103,9 +111,9 @@ const AuthState = props => {
     return (
         <authContext.Provider
             value={{
-                user: state.user,
                 registered: state.registered,
                 authenticated: state.authenticated,
+                user: state.user,
                 message: state.message,
                 cargando: state.cargando,
                 handleRegisterUser,

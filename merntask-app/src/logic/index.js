@@ -11,6 +11,7 @@ import deleteProject from './delete-project'
 import addTaskProject from './add-task-project'
 import retrieveTasks from './retrieve-tasks'
 import deleteTaskProject from './delete-task-project'
+import updateTaskProject from './update-task-project'
 
 export {
     login,
@@ -23,5 +24,6 @@ export {
     deleteProject,
     addTaskProject,
     retrieveTasks,
-    deleteTaskProject
+    deleteTaskProject,
+    updateTaskProject
 }
