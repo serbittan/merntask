@@ -1,9 +1,9 @@
 import { 
     TASKS_PROJECT, 
     ADD_TASK, 
-    VALIDATE_TASK,
+    TASK_VALIDATE,
     DELETE_TASK, 
-    STATUS_TASK,
+    // STATUS_TASK,
     CURRENT_TASK,
     UPDATE_TASK,
     CLEAN_TASK
@@ -11,18 +11,20 @@ import {
 
 const taskReducer = (state, action) => {
     switch (action.type) {
-        case TASKS_PROJECT:
-            return {
-                ...state,
-                tasksProject: state.tasks.filter(task => task.projectId === action.payload)
-            }
         case ADD_TASK:
             return {
                 ...state,
-                tasks: [action.payload, ...state.tasks],//invierto el orden para que la nueva tarea aparezca arriba del todo en 1ªposición.
+                tasksproject: [action.payload, ...state.tasksproject],//invierto el orden para que la nueva tarea aparezca arriba del todo en 1ªposición.
                 errorTask: false
             }
-        case VALIDATE_TASK:
+        case TASKS_PROJECT:
+            return {
+                ...state,
+                tasksproject: action.payload
+                // state.tasks.filter(task => task.id === action.payload)
+            }
+        
+        case TASK_VALIDATE:
             return {
                 ...state,
                 errorTask: true
@@ -30,13 +32,14 @@ const taskReducer = (state, action) => {
         case DELETE_TASK:
             return {
                 ...state,
-                tasks: state.tasks.filter(task => task.id !== action.payload)
+                tasksproject: state.tasksproject.filter(task => task.id !== action.payload)
             }
-        case STATUS_TASK:
+        // case STATUS_TASK:
         case UPDATE_TASK:
             return {
                 ...state,
-                tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
+                tasksproject: state.tasksproject.map(task => task.id === action.payload.id ? action.payload : task)
+                // si coinciden los id's la modifica y si no la deja tal cual
             }
         case CURRENT_TASK:
             return {

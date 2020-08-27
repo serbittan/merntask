@@ -5,12 +5,15 @@ const ButtonMain = () => {
      //traer state del proyecto activo
      const projectsContext = useContext(projectContext)
      const { project, setDeleteProject } = projectsContext
-
-     const [actualProject] = project
+     
+     //destructuring del array projecto para tener su posición 
+     //porque esto viene de un filter que devuelve un nuevo array
+     const [projectcurrent] = project
+     
     return ( 
         
             <button
-                 onClick={() => setDeleteProject(actualProject.id)}
+                 onClick={() => setDeleteProject(projectcurrent.id)}
                  type="button"
                  className="btn btn-eliminar"
             >Delete Project &times;</button>

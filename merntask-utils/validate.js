@@ -33,4 +33,5 @@ module.exports = {
 
         if (!header.trim().length || !payload.trim().length || !signature.trim().length) throw new ContentError('invalid token')
     }
+   
 }
