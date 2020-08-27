@@ -4,8 +4,8 @@ const { NotAllowedError } = require('merntask-errors')
 const bcrypt = require('bcrypt')
 
 const registerUser = (name, email, password) => {
-    console.log(name)
     validate.string(name, 'name')
+    validate.string(email, 'email')
     validate.email(email, 'email')
     validate.string(password, 'password')
 

@@ -3,30 +3,29 @@ import { Link } from 'react-router-dom'
 import { authContext } from '../../context/auth'
 import { alertContext } from '../../context/alerts'
 import Feedback from '../validation/Feedback'
-import { isLoggedIn } from '../../logic'
 
 const Login = ({ history }) => {
     const authsContext = useContext(authContext)
-    const { authenticated, message, handleLogin } = authsContext
+    const { message, authenticated, handleLogin } = authsContext
 
     const alertsContext = useContext(alertContext)
     const { alert, alertShow } = alertsContext
 
 
     useEffect(() => {
-        if (isLoggedIn()) {  //utilizo la función en lugar de hacerlo con authenticated que también se podría
+        if (authenticated) {  //utilizo la función en lugar de hacerlo con authenticated que también se podría
             history.push('/projects')
         }
         if (message) {
             alertShow(message.msg, message.categoria)
         }
-
+        // eslint-disable-next-line
     }, [authenticated, message])
 
 
     return (
         <div className="form-usuario">
-            <div className="contenedor-form">
+            <div className="contenedor-form sombra-dark">
                 {alert && <Feedback message={alert.msg} level={alert.categoria} />}
                 <h1>Login</h1>
                 <form onSubmit={event => {

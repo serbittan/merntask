@@ -15,7 +15,7 @@ const retrieveProjects = (id) => {
         // con lean obtengo el obj plano y puedo iterar sobre él para manipularlo. Sin él aplicar el for no cambia nada.
         // con el método sort invierto el orden de los proyectos. Tomo como ref la hora de creación del proyecto: created
 
-        if (!project.length) throw new NotFoundError(`user with ${id} has not projects`)
+        if (!project) throw new NotFoundError(`user with ${id} has not projects`)
 
         project.forEach(project => {
             project.id = project._id.toString()
@@ -23,7 +23,7 @@ const retrieveProjects = (id) => {
             delete project._id
             delete project.__v
         })
-
+        
         return  project
 
     })()

@@ -3,22 +3,23 @@ import projectContext from './projectContext'
 import projectReducer from './projectReducer'
 import {
     FORMULARIO_PROJECT,
-    GET_PROJECTSNAME,
+    GET_PROJECTS,
     ADD_NEWPROJECT,
-    VALIDAR_PROJECTNAME,
+    FORM_VALIDATE,
     ERROR_PROJECT,
     CURRENT_PROJECT,
     DELETE_PROJECT
 } from '../../types'
 
 import { addProject, retrieveProjects, deleteProject } from '../../logic'
+// import project from '../../../../merntask-api/node_modules/merntask-data/schemas/project'
 
 
 const ProjectState = props => {
     const initialState = {
-        projectsName: [],
+        projects: [],
         formulario: false,
-        error: false,
+        errorform: false,
         project: null,
         message: null
     }
@@ -26,26 +27,27 @@ const ProjectState = props => {
     //Dispatch para ejecutar las acciones
     const [state, dispatch] = useReducer(projectReducer, initialState)
 
-    //Serie de funciones para el CRUD
+
+    // Accionar el formulario de proyectos
     const setFormulario = () => {
         dispatch({
             type: FORMULARIO_PROJECT
         })
     }
 
-    //Obtener los projectsName
-    const getProjectsName = () => {
+    //Obtener los projects
+    const getProjects = () => {
         (async () => {
             try {
-                const projectsName = await retrieveProjects()
+                const projectsArray = await retrieveProjects()
                 dispatch({
-                    type: GET_PROJECTSNAME,
-                    payload: projectsName
+                    type: GET_PROJECTS,
+                    payload: projectsArray
                 })
-                
+               
             } catch (error) {
                 const alert = {
-                    msg: 'Hubo un error',
+                    msg: error.message,
                     categoria: 'alert-error'
                 }
                 dispatch({
@@ -57,14 +59,13 @@ const ProjectState = props => {
     }
 
     //add a new project
-    const addNewProject = newProject => {
+    const addNewProject = project => {
         (async () => {
             try {
-                const project = await addProject(newProject)
-                console.log(project)
+                const projectAdded  = await addProject(project)
                 dispatch({
                     type: ADD_NEWPROJECT,
-                    payload: project
+                    payload: projectAdded
                 })
             } catch (error) {
                 const alert = {
@@ -83,31 +84,30 @@ const ProjectState = props => {
                 
                 
 
-    //gestionar los errores
-    const setError = () => {
+    //gestionar los errores del formulario 
+    const showError = () => {
         dispatch({
-            type: VALIDAR_PROJECTNAME
+            type: FORM_VALIDATE
         })
     }
 
-    //add project when user click in
-    const currentProject = id => {
+    //selecciona el project cuando el usuario hace click
+    const currentProjectFn = id => {
         dispatch({
             type: CURRENT_PROJECT,
             payload: id
         })
     }
 
+    // Eliminar un project
     const setDeleteProject = id => {
         (async () => {
             try {
                 await deleteProject(id)
-
                 dispatch({
                     type: DELETE_PROJECT,
                     payload: id
                 })
-                
             } catch (error) {
                 const alert = {
                     msg: 'Hubo un error',
@@ -121,20 +121,22 @@ const ProjectState = props => {
         })()
     }
 
+                
+
 
     return (
         <projectContext.Provider
             value={{
-                project: state.project,
-                projectsName: state.projectsName,
+                projects: state.projects,
                 formulario: state.formulario,
-                error: state.error,
+                errorform: state.errorform,
+                project: state.project,
                 message: state.message,
                 setFormulario,
-                getProjectsName,
+                getProjects,
                 addNewProject,
-                setError,
-                currentProject,
+                showError,
+                currentProjectFn,
                 setDeleteProject
             }}>
             {props.children}

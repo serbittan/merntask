@@ -6,12 +6,11 @@ const alertReducer = (state, action) => {
     switch(action.type) {
         case ALERT_SHOW:
             return {
-                //...state,
                 alert: action.payload
+                // Solo vamos a tener alerta en el state. No hace falta hacer la copia del state.
             }
         case ALERT_HIDDEN:
             return {
-                // ...state,
                 alert: null
             }
         case RETRIEVE_USER:

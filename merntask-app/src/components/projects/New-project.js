@@ -1,40 +1,39 @@
 import React, { Fragment, useState, useContext } from 'react'
 import { projectContext } from '../../context/projects'
-import Feedback from '../validation/Feedback'
 
 const NewProject = () => {
 
-    //traemos el state del formulario
+    // traemos el state del formulario
     const projectsContext = useContext(projectContext)
-    const { formulario, error, setFormulario, addNewProject, setError } = projectsContext
+    const { formulario, errorform, setFormulario, addNewProject, showError } = projectsContext
 
-    //state de project
-    const [projectName, setProjectName] = useState({
+    // state de project
+    const [project, setProject] = useState({
         name: ''
     })
 
-    const { name } = projectName
+    const { name } = project
 
-    //rellenan los campos del state
+    // rellenan los campos del state del formulario
     const handleStateProject = event => {
-        setProjectName({
-            ...projectName,
+        setProject({
+            ...project,
             [event.target.name] : event.target.value
         })
     }
 
-    //se envia el formulario
-    const onSubmitProjectName = event => {
+    // user envia el formulario
+    const onSubmitProject = event => {
         event.preventDefault()
         
-        //validar los campos del formulario (debería estar en la lógica de llamada a api) => TODO
+        // validar los campos del formulario (debería estar en la lógica de llamada a api) => TODO
         if (!name.trim()) {
-            setError()
+            showError()
             return
         }
-        addNewProject(projectName)
+        addNewProject(project)
         //reiniciamos el campo formulario
-        setProjectName({
+        setProject({
             name: ''
         })
         
@@ -50,7 +49,7 @@ const NewProject = () => {
                 onClick={() => setFormulario()}
             >New Project</button>
             {formulario && <form 
-                onSubmit={onSubmitProjectName}
+                onSubmit={onSubmitProject}
                 className="formulario-nuevo-proyecto"
             >
                 <input 
@@ -67,7 +66,7 @@ const NewProject = () => {
                     value="Add new project"
                 />
             </form>}
-                {error && <Feedback message="Name Project field should be fill" />}
+                {errorform && <p className="mensaje error">Name Project field should be fill</p>}
         </Fragment> 
      )
 }

@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
-import projectContext from '../../context/projects/projectContext'
+import { projectContext } from '../../context/projects'
 import { taskContext } from '../../context/tasks'
-import Feedback from '../validation/Feedback'
+
+
 
 const FormTask = () => {
     //extraer si un proyecto esta activo
@@ -10,40 +11,45 @@ const FormTask = () => {
 
     //extraer el state de tareas
     const tasksContext = useContext(taskContext)
-    const { selectedTask, errorTask, addTask, setErrorTask, getTasksProject, updateTask, cleanTask } = tasksContext
+    const { selectedTask, errorTask, addTask, setErrorTask, getTasks, updateTask, cleanTask } = tasksContext
 
-    //detecta si una tarea ha sido seleccionada
+
+    // detecta si una tarea ha sido seleccionada
     useEffect(() => {
         if (selectedTask !== null) {
-            setTaskForm(selectedTask)
+            setTask(selectedTask)
         } else {
-            setTaskForm({
+            setTask({
                 name: ''
             })
         }
     }, [selectedTask])
 
-    //state del formulario
-    const [taskForm, setTaskForm] =  useState({
+
+
+    //state propio del formulario
+    const [task, setTask] = useState({
         name: ''
     })
+    //extraer nombre tarea
+    const { name } = task
 
-    //extraer nombre proyecto
-    const { name } = taskForm
-
-    const handleOnChange = event => {
-        event.preventDefault()
-        setTaskForm({
-            ...taskForm, //esta linea no es necesaria. Esta pensada por si añadimos mas inputs en un futuro.
-            [event.target.name] : event.target.value
-        })
-    }
     
-
+    // verificar si existe projecto
     if (!project) return null
 
-    //destructuring del array projecto para tener su posición
-     const [currentProject] = project
+    //destructuring del array projecto para tener su posición 
+    //porque esto viene de un filter que devuelve un nuevo array
+    const [projectcurrent] = project
+
+
+    // Leer los valores del Formulario
+    const handleOnChange = event => {
+        setTask({
+            ...task, //esta linea no es necesaria. Esta pensada por si añadimos mas inputs en un futuro.
+            [event.target.name]: event.target.value
+        })
+    }
 
     const handleSubmitTask = event => {
         event.preventDefault()
@@ -53,27 +59,31 @@ const FormTask = () => {
             setErrorTask()
             return
         }
-        
+
+        // si es edición o es nueva tarea
         if (selectedTask === null) {
             //agregar nueva tarea al state de tareas
-            taskForm.project = currentProject.id
-            addTask(taskForm)
+            task.project = projectcurrent.id
+            
+            addTask(task)
+
         } else {
-            //tarea editada
-            updateTask(taskForm)
+            // actualizar tarea existente
+            updateTask(task)
+            
             //limpiar el state
             cleanTask()
         }
-        
-        //obtener y filtrar las tareas del proyecto seleccionado.
-        getTasksProject(currentProject.id)
+
+        //obtener y filtrar las tareas del proyecto seleccionado/actual.
+        getTasks(projectcurrent.id)
 
         //reiniciar el form
-        setTaskForm({
+        setTask({
             name: ''
         })
 
-        
+
     }
 
     return (
@@ -99,7 +109,7 @@ const FormTask = () => {
                     />
                 </div>
             </form>
-            {errorTask && <Feedback  message='Task field should be fill'/>}
+            {errorTask && <p className='mensaje error'>Task field should be fill</p>}
         </div>
     )
 }

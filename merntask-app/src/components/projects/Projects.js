@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from 'react'
-import Sidebar from '../layout/Sidebar'
-import Header from '../layout/Header'
-import FormTask from '../tasks/Form-task'
-import ResultsListTasks from '../tasks/ResultsList-tasks'
+import { Sidebar, Header } from '../layout'
+import { FormTask, ResultsListTasks } from '../tasks'
 import { authContext } from '../../context/auth'
 import { isLoggedIn } from '../../logic'
 
@@ -12,8 +10,9 @@ const Projects = () => {
 
     useEffect(() => {
         if (isLoggedIn()) {
-            handleRetrieveUser()
+             handleRetrieveUser()
         }
+        // eslint-disable-next-line
     }, [])
 
     return ( 

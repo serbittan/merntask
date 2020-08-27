@@ -26,10 +26,10 @@ const AlertState = props => {
         setTimeout(() => {
             dispatch({
                 type: ALERT_HIDDEN
-                
             })
         }, 3000)
     }
+              
 
 
     return (

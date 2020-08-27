@@ -6,8 +6,10 @@ module.exports = (req, res) => {
 
     try {
         retrieveUser(id)
-            .then(user =>
+            .then(user =>{
                 res.status(200).json(user)
+
+            }
             )
             .catch(error => {
                 let status = 400

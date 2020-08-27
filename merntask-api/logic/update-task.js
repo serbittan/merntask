@@ -3,9 +3,10 @@ const { NotAllowedError, NotFoundError, ContentError } = require("merntask-error
 const { models: { Project, Task } } = require('merntask-data')
 
 
-const updateTask = (id, idTask, body) => {
+const updateTask = (id, idTask, project, body) => {
     validate.string(id, 'id')
     validate.string(idTask, 'idTask')
+    validate.string(project, 'project')
     validate.type(body, 'body', Object)
 
     // para versiones con mas key/value en el objeto body
@@ -20,28 +21,30 @@ const updateTask = (id, idTask, body) => {
 
     }
 
-    const { name, state, project } = body
-
+    
     if (!idTask) throw new NotFoundError('not found task matched with request')
-
+    
     return (async () => {
+        const { name, state } = body
 
-        const tareaExist = await Task.findById(idTask)
-
+        let tareaExist = await Task.findById(idTask)
+        
         if (!tareaExist) throw new NotFoundError(`task with id ${idTask} does not exist`)
 
         const projectExist = await Project.findById(project)
-
+        
         if (!projectExist) throw new NotFoundError(`project with id ${project} does not exist`)
+
         if (projectExist.creator.toString() !== id) throw new NotAllowedError(`user with id ${id} does not exist`)
 
-        const taskUpdated = await Task.findByIdAndUpdate({ _id: idTask }, { name, state }, { new: true }).lean()
+        tareaExist = await Task.findOneAndUpdate({ _id: idTask}, { name, state }, { new: true }).lean()
 
-        taskUpdated.id = taskUpdated._id.toString()
-        delete taskUpdated._id
-        delete taskUpdated.__v
-
-        return taskUpdated
+        
+        tareaExist.id = tareaExist._id.toString()
+        delete tareaExist._id
+        delete tareaExist.__v
+        
+        return tareaExist
 
     })()
 }

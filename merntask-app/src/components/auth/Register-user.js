@@ -5,12 +5,15 @@ import { alertContext } from '../../context/alerts'
 import { authContext } from '../../context/auth'
 
 const RegisterUser = ({ history }) => {
+    // Extraer los valores del context alert
     const alertsContext = useContext(alertContext)
     const { alert, alertShow } = alertsContext
 
+    // Extraer los valores del context auth
     const authsContext = useContext(authContext)
     const { registered, message, handleRegisterUser } = authsContext
-    
+
+    // En caso de que el usuario se haya registrado o sea un registro duplicado
     useEffect(() => {
         if (registered) {
             history.push('/')
@@ -18,13 +21,13 @@ const RegisterUser = ({ history }) => {
         if (message) {
             alertShow(message.msg, message.categoria)
         }
-    }, [registered, message])
+       // eslint-disable-next-line
+    }, [registered, message, history])
 
     return (
         <div className="form-usuario">
-            {alert ? (<div className={`alert ${alert.level}`}>{alert.message}</div>) : null}
-
             <div className="contenedor-form">
+            {alert && <Feedback message={alert.msg} level={alert.categoria} />}
                 <h1>Register</h1>
                 <form onSubmit={event => {
                     event.preventDefault()
@@ -34,7 +37,7 @@ const RegisterUser = ({ history }) => {
                     const password = event.target.password.value
                     const repeatPassword = event.target.repeatpassword.value
 
-                    handleRegisterUser(name, email, password, repeatPassword)
+                    handleRegisterUser({ name, email, password, repeatPassword })
                 }}>
                     <div className="campo-form">
                         <label htmlFor="name">Name:</label>
@@ -81,7 +84,6 @@ const RegisterUser = ({ history }) => {
                     </div>
 
                 </form>
-                {alert &&<Feedback message={alert.msg} level={alert.categoria} />}
                 <Link to={"/"} className="enlace-cuenta">log In</Link>
             </div>
         </div>

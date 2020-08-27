@@ -1,35 +1,38 @@
 import React, { Fragment, useContext } from 'react'
 import ItemTask from './Item-task'
 import { ButtonMain } from '../layout'
-import projectContext from '../../context/projects/projectContext'
+import { projectContext } from '../../context/projects'
 import { taskContext } from '../../context/tasks'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-const ResultsListTasks = () => {
-    //traer state tasks del project seleccionado
-    const tasksContext = useContext(taskContext)
-    const { tasksProject } = tasksContext
 
-    //traer state nombre proyecto seleccionado
+const ResultsListTasks = () => {
+    // Traer state nombre proyecto seleccionado
     const projectsContext = useContext(projectContext)
     const { project } = projectsContext
 
-    if (!project) return <h2>Add a new Project</h2>
+    // Traer las tasks del project seleccionado
+    const tasksContext = useContext(taskContext)
+    const { tasksproject } = tasksContext
 
-    //destructuring de project ja que es un array de objetos y necesitamos su posición. 
-    const [currentProject] = project
+    // Si no hay proyecto seleccionado
+    if (!project) return <h2>Select a Project</h2>
+    
+    // Destructuring (para obtener el proyecto actual) del array projecto y así tener su posición  
+    // porque esto viene de un filter que devuelve un nuevo array
+    const [projectcurrent] = project
 
 
     return (
         <Fragment>
-            <h2>{currentProject.title}</h2>
+            <h2>{projectcurrent.title}</h2>
 
             <ul className="listado-tareas">
-                {tasksProject.length === 0 ?
+                {tasksproject.length === 0 ?
                     <li className="tarea"><p>No tasks yet</p></li>
                     :
                     <TransitionGroup>
-                        {(tasksProject.map(task => (
+                        {(tasksproject.map(task => (
                             <CSSTransition
                                 key={task.id}
                                 timeout={200}

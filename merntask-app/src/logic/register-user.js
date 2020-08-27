@@ -4,21 +4,24 @@ import { ContentError, NotAllowedError } from 'merntask-errors'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-const registerUser = function (name, email, password, repeatPassword) {
+const registerUser = function (data) {
+    
+    const { name, email, password, repeatPassword } = data
+    
     validate.string(name, 'name')
     validate.string(email, 'email')
     validate.string(password, 'password')
     validate.string(repeatPassword, 'repeatPassword')
 
-    if (password.length < 6) throw new ContentError(`password ${password} required more or equal 6 characters`)
-    if (password !== repeatPassword) throw new NotAllowedError('password and repeatPassword should be the same')
+    if (password.length < 6) throw new ContentError('Password of at least 6 characters required')
+    if (password !== repeatPassword) throw new NotAllowedError('Passwords do not match')
 
 
     return (async () => {
         const response = await fetch(`${API_URL}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password, repeatPassword })
+            body: JSON.stringify(data)
         })
         const { status } = response
      

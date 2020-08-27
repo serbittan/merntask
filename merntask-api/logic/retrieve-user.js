@@ -27,14 +27,16 @@ const retrieveUser = (id) => {
         if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
         user.retrieved = new Date()
-
+        
         user.id = user._id.toString()
-
+        
         delete user._id
         delete user.__v
-
-        return user
+        
+        return  user
     })()
+
+
 
 }
 module.exports = retrieveUser
