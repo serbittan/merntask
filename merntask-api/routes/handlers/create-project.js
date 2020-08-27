@@ -1,6 +1,5 @@
 const { createProject } = require("../../logic")
 const  { NotAllowedError, TypeError, ContentError } = require('merntask-errors')
-const { project } = require("merntask-data/schemas")
 
 
 module.exports = (req, res) => {

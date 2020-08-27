@@ -26,7 +26,7 @@ const router = new Router()
 // usuarios
 router.post('/users', jsonBodyParser, registerUser)
 router.post('/users/auth', jsonBodyParser, authenticateUser)
-router.get('/users', jwtVerifierMidWare, retrieveUser )
+router.get('/users', jwtVerifierMidWare, retrieveUser)
 
 // projects
 router.post('/projects', jwtVerifierMidWare, jsonBodyParser, createProject)
