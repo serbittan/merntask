@@ -3,30 +3,29 @@ import { projectContext } from '../../context/projects'
 import { taskContext } from '../../context/tasks'
 
 const ItemProject = ({ project }) => {
-    //traemos el state de task
-    const tasksContext = useContext(taskContext)
-    const { getTasksProject } = tasksContext
-
     //traemos state de project
     const projectsContext = useContext(projectContext)
-    const { currentProject } = projectsContext
+    const { currentProjectFn } = projectsContext
 
-    const { id, name } = project
+    //traemos el state de task
+    const tasksContext = useContext(taskContext)
+    const { getTasks } = tasksContext
 
-    const handleProject = id => {
-        currentProject(id) //project actual seleccionado
-        getTasksProject(id) //tareas vinculadas a ese proyecto
+    // Función para agregar el proyecto actual
+    const projectSelect = id => {
+        currentProjectFn(id) //fijar el project actual seleccionado
+        getTasks(id) //tareas vinculadas a ese proyecto al dar click
     }
 
-    return ( 
+    return (
         <li>
             <button
-                onClick={() => handleProject(id)}
+                onClick={() => projectSelect(project.id)}
                 type="button"
                 className="btn btn-blank"
-            >{name}</button>
+            >{project.title}</button>
         </li>
-     )
+    )
 }
- 
+
 export default ItemProject

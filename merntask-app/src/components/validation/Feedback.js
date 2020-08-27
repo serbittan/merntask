@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Feedback = ({ message }) => {
+const Feedback = ({ message, level }) => {
     return ( 
-        <div>
-            <p className="mensaje error">{message}</p>
-        </div>
+        <p className={`mensaje error alert ${level}`}>
+            {message}
+        </p>
 
      )
 }
