@@ -6,7 +6,7 @@ MernTask is an application to easily manage projects and personal tasks.
 This project is part of a great course by Juan Pablo De la Torre Valdez that I have done. It's not exactly like Juan Pablo did it because I wanted to use the skills I learned in my bootcamp so I used fecht api instead of axios api ... and a few more skills.
 
 
-![merntask](https://media.giphy.com/media/5xtDarqlsEW6F7F14Fq/giphy.gif)
+![merntask](https://media.giphy.com/media/QsU3vYYHB69R3bvBMK/giphy.gif)
 
 
 ### Use Cases
